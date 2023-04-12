@@ -27,6 +27,14 @@ import body_landmark_detector as bl
 import detection_ros_markers as dr
 import detection_2d_to_3d as d2
 
+# youliang
+import tf2_ros
+from geometry_msgs.msg import TransformStamped
+
+# lamsey
+from std_msgs.msg import String
+import json
+
 
 class DetectionNode:
     def __init__(self, detector, default_marker_name, node_name,
@@ -71,7 +79,7 @@ class DetectionNode:
         time_diff = abs(time_diff.to_sec())
         if time_diff > 0.0001:
             print('WARNING: The rgb image and the depth image were not taken at the same time.')
-            print('         The time difference between their timestamps =', closest_time_diff, 's')
+            print('         The time difference between their timestamps =', time_diff, 's')
 
         # Rotate the image by 90deg to account for camera
         # orientation. In the future, this may be performed at the
@@ -92,6 +100,20 @@ class DetectionNode:
             cv2.imwrite('./output_images/deep_learning_output_' + str(self.image_count).zfill(4) + '.png', output_image)
 
         detections_3d = d2.detections_2d_to_3d(detections_2d, self.rgb_image, self.camera_info, self.depth_image, fit_plane=self.fit_plane, min_box_side_m=self.min_box_side_m, max_box_side_m=self.max_box_side_m)
+
+        if self.broadcast_human_tf:
+            for d in detections_3d:
+                for name, coordinate in d["landmarks_3d"].items():
+                    assert len(coordinate) == 3, "Body Pose should consist of XYZ coordinates"
+                    msg = TransformStamped()
+                    msg.header.stamp = rospy.Time.now()
+                    msg.header.frame_id = "camera_color_optical_frame"
+                    msg.child_frame_id = name
+                    msg.transform.translation.x = coordinate[0]
+                    msg.transform.translation.y = coordinate[1]
+                    msg.transform.translation.z = coordinate[2]
+                    msg.transform.rotation.w = 1.
+                    self.tf_broadcaster.sendTransform(msg)
 
         if self.modify_3d_detections is not None:
             detections_3d = self.modify_3d_detections(detections_3d)
@@ -118,6 +140,10 @@ class DetectionNode:
         self.visualize_markers_pub.publish(marker_array)
         if axes_array is not None: 
             self.visualize_axes_pub.publish(axes_array)
+
+        if len(detections_3d) > 0:
+            detection_string = json.dumps(detections_3d)
+            self.detections_3d_pub.publish(detection_string)
             
 
     def add_to_point_cloud(self, x_mat, y_mat, z_mat, mask):
@@ -165,4 +191,10 @@ class DetectionNode:
         self.visualize_markers_pub = rospy.Publisher('/' + self.topic_base_name + '/marker_array', MarkerArray, queue_size=1)
         self.visualize_axes_pub = rospy.Publisher('/' + self.topic_base_name + '/axes', MarkerArray, queue_size=1)
         self.visualize_point_cloud_pub = rospy.Publisher('/' + self.topic_base_name + '/point_cloud2', PointCloud2, queue_size=1)
+
+        self.detections_3d_pub = rospy.Publisher("/" + self.topic_base_name + "/detections_3d", String, queue_size=1)
+
+        self.broadcast_human_tf = True
+        if self.broadcast_human_tf:
+            self.tf_broadcaster = tf2_ros.TransformBroadcaster()
 
