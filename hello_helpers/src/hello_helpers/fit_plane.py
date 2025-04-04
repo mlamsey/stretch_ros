@@ -248,7 +248,7 @@ class FitPlane():
                 num_bins = 100 # num_bins x num_bins = total bins
                 density_image, mm_per_pix, x_indices, y_indices = create_density_image(inliers, self, image_width_pix=num_bins, view_width_m=5.0, return_indices=True)
                 density_image = np.reciprocal(density_image, where=density_image!=0.0)
-                number_model_inliers = np.int(np.round(np.sum(density_image[y_indices, x_indices])))
+                number_model_inliers = np.int64(np.round(np.sum(density_image[y_indices, x_indices])))
             else:
                 number_model_inliers = np.count_nonzero(select_model_inliers)
             if number_model_inliers > min_num_inliers:

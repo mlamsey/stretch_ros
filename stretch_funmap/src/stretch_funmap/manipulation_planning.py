@@ -180,8 +180,8 @@ def detect_cliff(image, m_per_pix, m_per_height_unit, robot_xy_pix, display_text
         if display_images:
             normal_length = 40.0
             x1, y1 = np.int64(np.round(normal_length * normal))
-            x0 = np.int(np.round((p0[0] + p1[0])/2.0))
-            y0 = np.int(np.round((p0[1] + p1[1])/2.0))
+            x0 = np.int64(np.round((p0[0] + p1[0])/2.0))
+            y0 = np.int64(np.round((p0[1] + p1[1])/2.0))
             width = 1
             cv2.line(color_im, (x0,y0), (x1+x0,y1+y0), [0,255,0], width)
     else:
