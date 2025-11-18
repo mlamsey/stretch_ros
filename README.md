@@ -1,23 +1,17 @@
-![](./images/banner.png)
+# Melodic Deprecated
 
-## ROS Noetic Development Branch
+This branch of *stretch_ros* is DEPRECATED. Please use the [Robot Install upgrade guide](https://github.com/hello-robot/stretch_install/blob/master/docs/robot_install.md) to upgrade to Ubuntu 20.04/[ROS Noetic](https://github.com/hello-robot/stretch_ros/tree/noetic) or Ubuntu 22.04/[ROS2 Humble](https://github.com/hello-robot/stretch_ros2/tree/humble). The Melodic README is saved below.
 
-This is a development branch that we are using to port *stretch_ros* to ROS Noetic, Python 3, and Ubuntu 20.04. We plan to begin shipping this version preinstalled on Stretch RE1 robots at the end of the summer of 2021. It is in a usable state, but has known limitations that we've listed below. It is also unstable, since we are actively conducting development in this branch. Since we have performed limited testing, you may encounter unexpected behaviors. Also, installation **requires Ubuntu 20.04 on a second partition** of your robot's hard drive. 
+---
+
+### Overview
+
+The *stretch_ros* repository holds ROS related code for the Stretch RE1 mobile manipulator from Hello Robot Inc. 
+For an overview of the capabilities in this repository, we recommend you look at the [following forum post](https://forum.hello-robot.com/t/autonomy-video-details).
 
 We are beginning to use this port internally at Hello Robot to test it, improve it, and add new capabilities. We also anticipate that some customers will begin working with this development branch. If you wish to try it, please see the [installation guide](install_noetic.md). **Both this branch and the installation guide are under active development. Please proceed with caution.**
 
 **Please file issues here and ask general questions on the [forum](https://forum.hello-robot.com)**.
-
-## Known Issues
-
- - There is no support for the Respeaker Microphone Array.
-
----
-
-## Directories
-
-The *stretch_ros* repository holds ROS related code for the Stretch RE1 mobile manipulator from Hello Robot Inc. For an overview of the capabilities in this repository, we recommend you look at the following forum post: https://forum.hello-robot.com/t/autonomy-video-details
-
 
 | Resource                                                     | Description                                                  |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -31,10 +25,28 @@ The *stretch_ros* repository holds ROS related code for the Stretch RE1 mobile m
 [stretch_gazebo](stretch_gazebo/README.md) | Support for simulation of Stretch in the Gazebo simulator
 [stretch_moveit_config](stretch_gazebo/README.md) | Config files to use Stretch with the MoveIt Motion Planning Framework
 [stretch_navigation](stretch_navigation/README.md) | Support for the ROS navigation stack, including move_base, gmapping, and AMCL
-[stretch_octomap](stretch_octomap/README.md) | Support for mapping using OctoMap: efficient probabilistic 3D Mapping based on Octrees
-[stretch_rtabmap](stretch_rtabmap/README.md) | Support for mapping using Real-Time Appearance-Based Mapping (RTAB-Map)
 
-## Licenses
+---
+
+## Directories
+
+#### Code Status & Development Plans
+
+
+Directory | Testing Status | Notes 
+--- | --- | ---
+hello_helpers | GOOD |
+stretch_calibration | GOOD |
+stretch_core | GOOD | 
+stretch_deep_perception | GOOD |
+stretch_demos | FAIR | 
+stretch_description | GOOD |
+stretch_funmap | FAIR | 
+stretch_gazebo | FAIR | differs from stretch_core in its underlying controllers
+stretch_moveit_config | FAIR | does not support mobile base planning in ROS 1
+stretch_navigation | GOOD |
+
+#### Licenses
 
 This software is intended for use with the Stretch RE1 mobile manipulator, which is a robot produced and sold by Hello Robot Inc. For further information, including inquiries about dual licensing, please contact Hello Robot Inc.
 

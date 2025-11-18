@@ -2,6 +2,8 @@
 
 import importlib
 
+import importlib
+
 import rospy
 import actionlib
 from control_msgs.msg import FollowJointTrajectoryAction
@@ -96,7 +98,8 @@ class JointTrajectoryAction:
             rospy.logdebug(("{0} joint_traj action: "
                             "target point #{1} = <{2}>").format(self.node.node_name, pointi, point))
 
-            valid_goals = [c.set_goal(point, self.invalid_goal_callback, self.node.fail_out_of_range_goal)
+            valid_goals = [c.set_goal(point, self.invalid_goal_callback, self.node.fail_out_of_range_goal,
+                                      manipulation_origin=self.node.mobile_base_manipulation_origin)
                            for c in self.command_groups]
             if not all(valid_goals):
                 # At least one of the goals violated the requirements

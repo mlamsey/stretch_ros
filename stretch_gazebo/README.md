@@ -31,7 +31,7 @@ These set up instructions will not be required on newly shipped robots. Follow t
 ```bash
 mkdir -p ~/catkin_ws/src
 cd ~/catkin_ws/src
-git clone https://github.com/hello-robot/stretch_ros -b dev/noetic
+git clone https://github.com/hello-robot/stretch_ros
 git clone https://github.com/pal-robotics/realsense_gazebo_plugin
 cd ~/catkin_ws
 rosdep install --from-paths src --ignore-src -r -y
@@ -53,6 +53,7 @@ This will launch an Rviz instance that visualizes the sensors and an empty world
 
 ![](../images/gazebo.png)
 
+<<<<<<< HEAD
 #### Running Demo with Keyboard Teleop node
 *keyboard_teleop_gazebo* : node that provides a keyboard interface to control the robot's joints within the gazebo simulation.
 
@@ -63,6 +64,8 @@ roslaunch stretch_gazebo gazebo.launch rviz:=true
 rosrun stretch_gazebo keyboard_teleop_gazebo
 ```
 
+=======
+>>>>>>> upstream/master
 ## Running Gazebo with MoveIt! and Stretch
 
 ```bash
