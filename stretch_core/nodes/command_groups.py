@@ -493,13 +493,18 @@ class MobileBaseCommandGroup(SimpleCommandGroup):
         self.goal_rotate_mobile_base = {"position": None, "velocity": None, "acceleration": None, "contact_threshold": None}
         if self.active:
             if self.active_translate_mobile_base or self.active_rotate_mobile_base:
+                if self.index_translate_mobile_base is None:
+                    self.index_translate_mobile_base = 0
+                if self.index_rotate_mobile_base is None:
+                    self.index_rotate_mobile_base = 0
+                
                 if len(point.positions) <= self.index_translate_mobile_base and len(point.positions) <= self.index_rotate_mobile_base:
                     err_str = ("Received goal point with positions array length={0}. These joints ({1})'s "
-                               "indices are {2} & {3} respectively. Length of array must cover all joints "
-                               "listed in commanded_joint_names.").format(len(point.positions),
-                                                                          self.incrementing_joint_names,
-                                                                          self.index_translate_mobile_base,
-                                                                          self.index_rotate_mobile_base)
+                            "indices are {2} & {3} respectively. Length of array must cover all joints "
+                            "listed in commanded_joint_names.").format(len(point.positions),
+                                                                        self.incrementing_joint_names,
+                                                                        self.index_translate_mobile_base,
+                                                                        self.index_rotate_mobile_base)
                     invalid_goal_callback(err_str)
                     return False
 
